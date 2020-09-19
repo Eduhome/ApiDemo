@@ -1,0 +1,260 @@
+{
+	"id": "ce1291e0-0d65-f4c5-8cb4-942cbec81c47",
+	"name": "AADEMO",
+	"description": "",
+	"order": [
+		"b0a71880-7b8d-84ca-c4ba-c5fa62bf09e3",
+		"0ac1180d-fe0f-723f-91d2-23ffebab2bad",
+		"255f679a-c279-54da-c5e9-62fa182675cf"
+	],
+	"folders": [
+		{
+			"name": "Producto",
+			"description": "",
+			"collectionId": "ce1291e0-0d65-f4c5-8cb4-942cbec81c47",
+			"order": [
+				"4321a418-a00f-a730-d6c1-45cabd01b7a1",
+				"123fc88b-5158-cea7-ec4e-4fe6cecdbd83",
+				"e85a7738-126b-99d6-8516-606ec532a696",
+				"350df972-a1eb-8b61-2be5-03a3f491c2ca",
+				"ca5e4da3-5d88-1b50-908d-b32dd4add30a"
+			],
+			"owner": "1384259",
+			"folders_order": [],
+			"id": "c244a518-6192-20b3-3ca4-9461264cf345"
+		}
+	],
+	"folders_order": [
+		"c244a518-6192-20b3-3ca4-9461264cf345"
+	],
+	"timestamp": 1555508558795,
+	"owner": "1384259",
+	"public": false,
+	"requests": [
+		{
+			"id": "0ac1180d-fe0f-723f-91d2-23ffebab2bad",
+			"headers": "",
+			"headerData": [],
+			"url": "http://localhost/ApiDemo/index.php/probando",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1600371094475,
+			"name": "Devolver un texto",
+			"description": "",
+			"collectionId": "ce1291e0-0d65-f4c5-8cb4-942cbec81c47",
+			"responses": []
+		},
+		{
+			"id": "123fc88b-5158-cea7-ec4e-4fe6cecdbd83",
+			"headers": "",
+			"headerData": [],
+			"url": "http://localhost/ApiDemo/producto.php/productos/1",
+			"folder": "c244a518-6192-20b3-3ca4-9461264cf345",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1600372191659,
+			"name": "GET PRODUCTOS ID",
+			"description": "",
+			"collectionId": "ce1291e0-0d65-f4c5-8cb4-942cbec81c47",
+			"responses": []
+		},
+		{
+			"id": "255f679a-c279-54da-c5e9-62fa182675cf",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost/ApiDemo/index.php/imagen",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "binary",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1600371109087,
+			"name": "Subir Imagen",
+			"description": "",
+			"collectionId": "ce1291e0-0d65-f4c5-8cb4-942cbec81c47",
+			"responses": [],
+			"rawModeData": ""
+		},
+		{
+			"id": "350df972-a1eb-8b61-2be5-03a3f491c2ca",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost/ApiDemo/producto.php/productos/1",
+			"folder": "c244a518-6192-20b3-3ca4-9461264cf345",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "PUT",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1600372150222,
+			"name": "Actualizar json de producto",
+			"description": "",
+			"collectionId": "ce1291e0-0d65-f4c5-8cb4-942cbec81c47",
+			"responses": [],
+			"rawModeData": "{\n    \"nombre\": \"Manzanas\",\n    \"description\": \"jodas\",\n    \"precio\": \"80\",\n    \"imagen\": null\n}"
+		},
+		{
+			"id": "4321a418-a00f-a730-d6c1-45cabd01b7a1",
+			"headers": "Authorization: 123456\n",
+			"headerData": [
+				{
+					"key": "Authorization",
+					"value": "123456",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost/ApiDemo/producto.php/productos",
+			"folder": "c244a518-6192-20b3-3ca4-9461264cf345",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1600372189214,
+			"name": "GET PRODUCTOS",
+			"description": "",
+			"collectionId": "ce1291e0-0d65-f4c5-8cb4-942cbec81c47",
+			"responses": []
+		},
+		{
+			"id": "b0a71880-7b8d-84ca-c4ba-c5fa62bf09e3",
+			"headers": "",
+			"headerData": [],
+			"url": "http://localhost/ApiDemo/index.php/pruebas",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "GET",
+			"data": null,
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1600371067707,
+			"name": "Probando",
+			"description": "",
+			"collectionId": "ce1291e0-0d65-f4c5-8cb4-942cbec81c47",
+			"responses": []
+		},
+		{
+			"id": "ca5e4da3-5d88-1b50-908d-b32dd4add30a",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost/ApiDemo/producto.php/productos/2",
+			"folder": "c244a518-6192-20b3-3ca4-9461264cf345",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "DELETE",
+			"data": [],
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1600372179716,
+			"name": "Eliminar json de producto",
+			"description": "",
+			"collectionId": "ce1291e0-0d65-f4c5-8cb4-942cbec81c47",
+			"responses": []
+		},
+		{
+			"id": "e85a7738-126b-99d6-8516-606ec532a696",
+			"headers": "Content-Type: application/json\nApiKey: 1234567\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				},
+				{
+					"key": "ApiKey",
+					"value": "1234567",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost/ApiDemo/producto.php/productos",
+			"folder": "c244a518-6192-20b3-3ca4-9461264cf345",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1600372125431,
+			"name": "Insertar json de producto",
+			"description": "",
+			"collectionId": "ce1291e0-0d65-f4c5-8cb4-942cbec81c47",
+			"responses": [],
+			"rawModeData": "{\n    \"nombre\": \"Peras\",\n    \"description\": \"frutas\",\n    \"precio\": \"60\",\n    \"imagen\": null\n}"
+		}
+	]
+}
