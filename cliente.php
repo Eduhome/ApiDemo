@@ -17,7 +17,7 @@ require_once 'vendor/autoload.php';
 
 $app = new \Slim\Slim();
 
-$db = new mysqli('localhost', 'root', '', 'backendapi');
+$db = new mysqli('localhost', 'root', '', 'farmaciacumbre');
 
 // Configuración de cabeceras
 header('Access-Control-Allow-Origin: *');
@@ -41,85 +41,98 @@ if($method == "OPTIONS") {
     }
 }*/
 
-// LISTAR TODOS LOS PRODUCTOS
-$app->get('/compras', function() use($db, $app){
-    $sql = 'SELECT * FROM compra ORDER BY id DESC;';
+// LISTAR TODOS DE USUARIOS
+$app->get('/clientes', function() use($db, $app){
+    $sql = 'SELECT * FROM cliente ORDER BY id DESC;';
     $query = $db->query($sql);
 
-    $productos = array();
-    while ($producto = $query->fetch_assoc()) {
-        $productos[] = $producto;
+    $usuarios = array();
+    while ($usuario = $query->fetch_assoc()) {
+        $usuarios[] = $usuario;
     }
 
     $result = array(
         'status' => 'success',
         'code'	 => 200,
-        'data' => $productos
+        'data' => $usuarios
     );
 
     echo json_encode($result);
 });
 
-// DEVOLVER UN SOLO PRODUCTO
-$app->get('/productos/:id', function($id) use($db, $app){
-    $sql = 'SELECT * FROM productos WHERE id = '.$id;
+
+
+$app->get('/clientes/:id', function($id) use($db, $app){
+    $sql = 'SELECT * FROM cliente WHERE id = '.$id;
     $query = $db->query($sql);
 
     $result = array(
-        'status' 	=> 'error',
-        'code'		=> 404,
-        'message' 	=> 'Producto no disponible'
+        'status'    => 'error',
+        'code'      => 404,
+        'message'   => 'Producto no disponible'
     );
 
     if($query->num_rows == 1){
         $producto = $query->fetch_assoc();
 
         $result = array(
-            'status' 	=> 'success',
-            'code'		=> 200,
-            'data' 	=> $producto
+            'status'    => 'success',
+            'code'      => 200,
+            'data'  => $producto
         );
     }
 
     echo json_encode($result);
 });
 
-// GUARDAR PRODUCTOS
-$app->post('/productos', function() use($app, $db){
+
+// GUARDAR USUARIO
+$app->post('/clientes', function() use($app, $db){
     $result = array(
         'status' => 'error',
-        'code'	 => 404,
+        'code'   => 404,
         'message' => 'Producto NO se ha creado'
     );
 
-    $token = $app->request->headers('ApiKey');
+    // $token = $app->request->headers('ApiKey');
 
-    if($token=='1234567'){
+    // if($token=='1234567'){
 
         $json = $app->request->getBody('json');
         $data = json_decode($json, true);
+
+       
+        if(!isset($data['nit'])){
+            $data['nit']=null;
+        }
 
         if(!isset($data['nombre'])){
             $data['nombre']=null;
         }
 
-        if(!isset($data['description'])){
-            $data['description']=null;
+        if(!isset($data['telefono'])){
+            $data['telefono']=null;
         }
 
-        if(!isset($data['precio'])){
-            $data['precio']=null;
+        if(!isset($data['fecha'])){
+            $data['fecha']=null;
         }
 
-        if(!isset($data['imagen'])){
-            $data['imagen']=null;
+        if(!isset($data['usuario_id'])){
+            $data['usuario_id']=null;
         }
 
-        $query = "INSERT INTO productos VALUES(NULL,".
+       
+
+
+
+        $query = "INSERT INTO cliente VALUES(NULL,".
+           
+            "'{$data['nit']}',".
             "'{$data['nombre']}',".
-            "'{$data['description']}',".
-            "'{$data['precio']}',".
-            "'{$data['imagen']}'".
+            "'{$data['telefono']}',".
+            "'{$data['fecha']}',".
+            "'{$data['usuario_id']}'".
             ");";
 
         $insert = $db->query($query);
@@ -127,45 +140,44 @@ $app->post('/productos', function() use($app, $db){
         if($insert){
             $result = array(
                 'status' => 'success',
-                'code'	 => 200,
+                'code'   => 200,
                 'message' => 'Producto creado correctamente'
             );
         }
-    }
+    
 
     echo json_encode($result);
 
 });
 
 // ACTUALIZAR UN PRODUCTO
-$app->put('/productos/:id', function($id) use($db, $app){
+
+$app->put('/clientes/:id', function($id) use($db, $app){
     $json = $app->request->getBody('json');
     $data = json_decode($json, true);
 
-    $sql = "UPDATE productos SET ".
-        "nombre = '{$data["nombre"]}', ".
-        "description = '{$data["description"]}', ";
-
-    if(isset($data['imagen'])){
-        $sql .= "imagen = '{$data["imagen"]}', ";
-    }
-
-    $sql .=	"precio = '{$data["precio"]}' WHERE id = {$id}";
-
+    $sql = "UPDATE cliente SET ".
+            "nit = '{$data["nit"]}', ".
+            "nombre = '{$data["nombre"]}', ".
+            "telefono = '{$data["telefono"]}', ".
+            "fecha = '{$data["fecha"]}', ".
+            "usuario_id = '{$data["usuario_id"]}' WHERE id = {$id}";
+          
+            
 
     $query = $db->query($sql);
 
     if($query){
         $result = array(
-            'status' 	=> 'success',
-            'code'		=> 200,
-            'message' 	=> 'El producto se ha actualizado correctamente!!'
+            'status'    => 'success',
+            'code'      => 200,
+            'message'   => 'El producto se ha actualizado correctamente!!'
         );
     }else{
         $result = array(
-            'status' 	=> 'error',
-            'code'		=> 404,
-            'message' 	=> 'El producto no se ha actualizado!!'
+            'status'    => 'error',
+            'code'      => 404,
+            'message'   => 'El producto no se ha actualizado!!'
         );
     }
 
@@ -173,22 +185,24 @@ $app->put('/productos/:id', function($id) use($db, $app){
 
 });
 
-// ELIMINAR UN PRODUCTO
-$app->delete('/productos/:id', function($id) use($db, $app){
-    $sql = 'DELETE FROM productos WHERE id = '.$id;
+
+// ELIMINAR UN USUARIO
+
+$app->delete('/clientes/:id', function($id) use($db, $app){
+    $sql = 'DELETE FROM cliente WHERE id = '.$id;
     $query = $db->query($sql);
 
     if($query){
         $result = array(
-            'status' 	=> 'success',
-            'code'		=> 200,
-            'message' 	=> 'El producto se ha eliminado correctamente!!'
+            'status'    => 'success',
+            'code'      => 200,
+            'message'   => 'El producto se ha eliminado correctamente!!'
         );
     }else{
         $result = array(
-            'status' 	=> 'error',
-            'code'		=> 404,
-            'message' 	=> 'El producto no se ha eliminado!!'
+            'status'    => 'error',
+            'code'      => 404,
+            'message'   => 'El producto no se ha eliminado!!'
         );
     }
 

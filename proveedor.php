@@ -17,7 +17,7 @@ require_once 'vendor/autoload.php';
 
 $app = new \Slim\Slim();
 
-$db = new mysqli('localhost', 'root', '', 'backendapi');
+$db = new mysqli('localhost', 'root', '', 'farmaciacumbre');
 
 // Configuración de cabeceras
 header('Access-Control-Allow-Origin: *');
@@ -42,8 +42,8 @@ if($method == "OPTIONS") {
 }*/
 
 // LISTAR TODOS LOS PRODUCTOS
-$app->get('/compras', function() use($db, $app){
-    $sql = 'SELECT * FROM compra ORDER BY id DESC;';
+$app->get('/proveedores', function() use($db, $app){
+    $sql = 'SELECT * FROM proveedor ORDER BY id DESC;';
     $query = $db->query($sql);
 
     $productos = array();
@@ -61,8 +61,8 @@ $app->get('/compras', function() use($db, $app){
 });
 
 // DEVOLVER UN SOLO PRODUCTO
-$app->get('/productos/:id', function($id) use($db, $app){
-    $sql = 'SELECT * FROM productos WHERE id = '.$id;
+$app->get('/proveedores/:id', function($id) use($db, $app){
+    $sql = 'SELECT * FROM proveedor WHERE id = '.$id;
     $query = $db->query($sql);
 
     $result = array(
@@ -85,41 +85,32 @@ $app->get('/productos/:id', function($id) use($db, $app){
 });
 
 // GUARDAR PRODUCTOS
-$app->post('/productos', function() use($app, $db){
+$app->post('/proveedores', function() use($app, $db){
     $result = array(
         'status' => 'error',
         'code'	 => 404,
         'message' => 'Producto NO se ha creado'
     );
 
-    $token = $app->request->headers('ApiKey');
+    // $token = $app->request->headers('ApiKey');
 
-    if($token=='1234567'){
+    // if($token=='1234567'){
 
         $json = $app->request->getBody('json');
         $data = json_decode($json, true);
 
-        if(!isset($data['nombre'])){
-            $data['nombre']=null;
+        if(!isset($data['nombre_proveedor'])){
+            $data['nombre_proveedor']=null;
         }
 
-        if(!isset($data['description'])){
-            $data['description']=null;
+        if(!isset($data['telefono'])){
+            $data['telefono']=null;
         }
 
-        if(!isset($data['precio'])){
-            $data['precio']=null;
-        }
-
-        if(!isset($data['imagen'])){
-            $data['imagen']=null;
-        }
-
-        $query = "INSERT INTO productos VALUES(NULL,".
+        $query = "INSERT INTO proveedor VALUES(NULL,".
             "'{$data['nombre']}',".
-            "'{$data['description']}',".
-            "'{$data['precio']}',".
-            "'{$data['imagen']}'".
+            "'{$data['telefono']}'".
+           
             ");";
 
         $insert = $db->query($query);
@@ -131,27 +122,22 @@ $app->post('/productos', function() use($app, $db){
                 'message' => 'Producto creado correctamente'
             );
         }
-    }
+    //}
 
     echo json_encode($result);
 
 });
 
 // ACTUALIZAR UN PRODUCTO
-$app->put('/productos/:id', function($id) use($db, $app){
+$app->put('/proveedores/:id', function($id) use($db, $app){
     $json = $app->request->getBody('json');
     $data = json_decode($json, true);
 
-    $sql = "UPDATE productos SET ".
-        "nombre = '{$data["nombre"]}', ".
-        "description = '{$data["description"]}', ";
+    $sql = "UPDATE proveedor SET ".
+        "nombre_proveedor = '{$data["nombre_proveedor"]}', ".
+        "telefono = '{$data["telefono"]}' WHERE id = {$id}";
 
-    if(isset($data['imagen'])){
-        $sql .= "imagen = '{$data["imagen"]}', ";
-    }
-
-    $sql .=	"precio = '{$data["precio"]}' WHERE id = {$id}";
-
+    
 
     $query = $db->query($sql);
 
@@ -174,8 +160,8 @@ $app->put('/productos/:id', function($id) use($db, $app){
 });
 
 // ELIMINAR UN PRODUCTO
-$app->delete('/productos/:id', function($id) use($db, $app){
-    $sql = 'DELETE FROM productos WHERE id = '.$id;
+$app->delete('/proveedores/:id', function($id) use($db, $app){
+    $sql = 'DELETE FROM proveedor WHERE id = '.$id;
     $query = $db->query($sql);
 
     if($query){

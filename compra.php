@@ -17,7 +17,7 @@ require_once 'vendor/autoload.php';
 
 $app = new \Slim\Slim();
 
-$db = new mysqli('localhost', 'root', '', 'backendapi');
+$db = new mysqli('localhost', 'root', '', 'farmaciacumbre');
 
 // Configuración de cabeceras
 header('Access-Control-Allow-Origin: *');
@@ -61,8 +61,8 @@ $app->get('/compras', function() use($db, $app){
 });
 
 // DEVOLVER UN SOLO PRODUCTO
-$app->get('/productos/:id', function($id) use($db, $app){
-    $sql = 'SELECT * FROM productos WHERE id = '.$id;
+$app->get('/compras/:id', function($id) use($db, $app){
+    $sql = 'SELECT * FROM compra WHERE id = '.$id;
     $query = $db->query($sql);
 
     $result = array(
@@ -85,41 +85,56 @@ $app->get('/productos/:id', function($id) use($db, $app){
 });
 
 // GUARDAR PRODUCTOS
-$app->post('/productos', function() use($app, $db){
+$app->post('/compras', function() use($app, $db){
     $result = array(
         'status' => 'error',
         'code'	 => 404,
         'message' => 'Producto NO se ha creado'
     );
 
-    $token = $app->request->headers('ApiKey');
+    // $token = $app->request->headers('ApiKey');
 
-    if($token=='1234567'){
+    // if($token=='1234567'){
 
         $json = $app->request->getBody('json');
         $data = json_decode($json, true);
+
+        if(!isset($data['fechacompra'])){
+            $data['fechacompra']=null;
+        }
 
         if(!isset($data['nombre'])){
             $data['nombre']=null;
         }
 
-        if(!isset($data['description'])){
-            $data['description']=null;
+        if(!isset($data['existencia'])){
+            $data['existencia']=null;
+        }
+
+        if(!isset($data['cantidad'])){
+            $data['cantidad']=null;
         }
 
         if(!isset($data['precio'])){
             $data['precio']=null;
         }
 
-        if(!isset($data['imagen'])){
-            $data['imagen']=null;
+        if(!isset($data['idproveedor'])){
+            $data['idproveedor']=null;
         }
 
-        $query = "INSERT INTO productos VALUES(NULL,".
+        if(!isset($data['usuario_id'])){
+            $data['usuario_id']=null;
+        }
+
+        $query = "INSERT INTO compra VALUES(NULL,".
+            "'{$data['fechacompra']}',".
             "'{$data['nombre']}',".
-            "'{$data['description']}',".
+            "'{$data['existencia']}',".
+            "'{$data['cantidad']}',".
             "'{$data['precio']}',".
-            "'{$data['imagen']}'".
+            "'{$data['idproveedor']}',".
+            "'{$data['usuario_id']}'".
             ");";
 
         $insert = $db->query($query);
@@ -131,27 +146,28 @@ $app->post('/productos', function() use($app, $db){
                 'message' => 'Producto creado correctamente'
             );
         }
-    }
+    //}
 
     echo json_encode($result);
 
 });
 
 // ACTUALIZAR UN PRODUCTO
-$app->put('/productos/:id', function($id) use($db, $app){
+$app->put('/compras/:id', function($id) use($db, $app){
     $json = $app->request->getBody('json');
     $data = json_decode($json, true);
 
-    $sql = "UPDATE productos SET ".
+    $sql = "UPDATE compra SET ".
+        "fechacompra = '{$data["fechacompra"]}', ".
         "nombre = '{$data["nombre"]}', ".
-        "description = '{$data["description"]}', ";
+        "existencia = '{$data["existencia"]}', ".
+        "cantidad = '{$data["cantidad"]}', ".
+        "precio = '{$data["precio"]}', ".
+        "idproveedor = '{$data["idproveedor"]}', ".
+        "usuario_id = '{$data["usuario_id"]}' WHERE id = {$id} ";
+       
 
-    if(isset($data['imagen'])){
-        $sql .= "imagen = '{$data["imagen"]}', ";
-    }
-
-    $sql .=	"precio = '{$data["precio"]}' WHERE id = {$id}";
-
+   
 
     $query = $db->query($sql);
 
@@ -174,8 +190,8 @@ $app->put('/productos/:id', function($id) use($db, $app){
 });
 
 // ELIMINAR UN PRODUCTO
-$app->delete('/productos/:id', function($id) use($db, $app){
-    $sql = 'DELETE FROM productos WHERE id = '.$id;
+$app->delete('/compras/:id', function($id) use($db, $app){
+    $sql = 'DELETE FROM compra WHERE id = '.$id;
     $query = $db->query($sql);
 
     if($query){

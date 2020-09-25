@@ -1,0 +1,8 @@
+{
+  "name": "Blog",
+  "version": "0.1.0",
+  "description": "Modelos y optimizacion",
+  "template": {
+    "withCompare": false
+  }
+}
